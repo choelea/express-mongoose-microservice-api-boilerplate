@@ -1,14 +1,14 @@
 const express = require('express');
-const accessLogger = require('morgan');
-require('dotenv').config({path:`./${process.env.NODE_ENV}.env`});
+require('dotenv').config({path:`./config/${process.env.NODE_ENV}.env`});
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const logger = require('./utils/logger')
 const app = express();
+const accessLogger = require('./middlewares/accessLogger');
 
-app.use(accessLogger('dev'));
+app.use(accessLogger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
