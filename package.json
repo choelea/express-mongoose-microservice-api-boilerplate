@@ -2,13 +2,26 @@
   "name": "express-mongoose-microservice-api-boilerplate",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=6.x"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "./node_modules/.bin/cross-env NODE_ENV=dev nodemon ./bin/www",
+    "eslint": "./node_modules/.bin/eslint --ext .js **/*.js"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
     "debug": "~2.6.3",
+    "dotenv": "^4.0.0",
     "express": "~4.15.2",
-    "morgan": "~1.8.1"
+    "mongoose": "^4.11.12",
+    "morgan": "~1.8.1",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.7.2"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.5",
+    "eslint": "^4.7.2",
+    "nodemon": "^1.12.1"
   }
 }
