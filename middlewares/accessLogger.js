@@ -2,7 +2,8 @@ const fs = require('fs')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 
-const logDir = process.env.LOG_DIR;
+const logDir = process.env.LOG_DIR
+
 module.exports = (() => {
   if (!logDir) {
     return morgan('dev')
