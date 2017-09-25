@@ -6,6 +6,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const logger = require('./utils/logger')
 const accessLogger = require('./middlewares/accessLogger')
+require('./models') // Bootstrap models
 
 const app = express()
 
@@ -28,12 +29,16 @@ app.use((req, res, next) => {
 // error handler
 app.use((err, req, res) => {
   // render the error page
+  if (err) { logger.error(err) }
   res.status(err.status || 500)
   res.json({ code: err.code || 500, message: err.message })
 })
 
-mongoose.connect('mongodb://localhost/emmab', { useMongoClient: true }, (error) => {
-  logger.error(error.message)
+mongoose.Promise = global.Promise
+mongoose.connect(process.env.EMM_DB, { useMongoClient: true, config: { autoIndex: false } }, (error) => {
+  if (error) {
+    logger.error(error.message)
+  }
 })
 
 module.exports = app

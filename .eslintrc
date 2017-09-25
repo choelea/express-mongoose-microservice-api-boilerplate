@@ -1,8 +1,10 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "jasmine": true
   },
-  "extends": "airbnb/base",
+  "plugins": ["jasmine"],
+  "extends": ["airbnb/base","plugin:jasmine/recommended"],
   "parserOptions": {
     "ecmaVersion": 8
   },
