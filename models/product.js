@@ -5,7 +5,7 @@ const Schama = mongoose.Schema
 const ProductSchema = new Schama({
   code: { type: String, required: true, trim: true, lowercase: true },
   name: { type: String, required: true, trim: true },
-  price: Number,
+  price: { type: Number, required: true, min: 0, max: 100000 },
   categories: [String],
 })
 

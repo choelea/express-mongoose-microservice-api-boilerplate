@@ -6,19 +6,22 @@ const { cleanup } = require('./helper')
 
 const Product = mongoose.model('Product')
 const agent = request.agent(app)
-const PRODUCT = { code: 'test1', name: 'Product Name1' }
+const PRODUCT = { code: 'test1', name: 'Product Name1', price: 1 }
 
-beforeEach((done) => { cleanup(done) })
+
+before((done) => { cleanup(done) })
 
 describe('try', () => {
-  it('should create a new todo', (done) => {
+  it('should create a new product', (done) => {
     const product = new Product(PRODUCT)
     product.save()
       .then((result) => {
-        assert(result.code === 'test1')
+        assert(result.code, 'test1')
         done()
       }).catch((err) => {
         done(err)
       })
   })
 })
+
+after((done) => { cleanup(done) })
