@@ -15,7 +15,7 @@ const co = require('co')
  */
 
 exports.cleanup = (done) => {
-  co(function* () {
+  co(function* f() {
     yield Product.remove()
     // yield Article.remove()
     done()

@@ -8,6 +8,7 @@
   "scripts": {
     "start": "./node_modules/.bin/cross-env NODE_ENV=dev nodemon ./bin/www",
     "test": "./node_modules/.bin/cross-env NODE_ENV=test mocha ./test/*.test.js",
+    "produceTestData":"./node_modules/.bin/cross-env NODE_ENV=test mocha ./test/performance-test-data-initiate.js",
     "lint": "./node_modules/.bin/eslint --ext .js **/*.js"
   },
   "dependencies": {

@@ -1,21 +1,21 @@
 const { wrap: async } = require('co')
 const mongoose = require('mongoose')
 
-const Product = mongoose.model('Product')
+const Category = mongoose.model('Category')
 /* GET users listing. */
 exports.list = async(function* list(req, res) {
   const options = {}
 
-  const articles = yield Product.find(options).exec()
-  res.json(articles)
+  const categories = yield Category.find(options).exec()
+  res.json(categories)
 })
 
 exports.createOne = async(function* list(req, res) {
   // const PRODUCT = { code: 'product-1', name: 'Product A', price: 10 }
   try {
-    const product = new Product(req.body)
-    const newProduct = yield product.save()
-    res.json(newProduct)
+    const category = new Category(req.body)
+    const result = yield category.save()
+    res.json(result)
   } catch (err) {
     res.status(500).json(err)
   }
