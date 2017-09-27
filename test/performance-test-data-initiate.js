@@ -10,7 +10,6 @@ const cats2 = ['cate-1', 'cate-3']
 const cates = [cats1, cats2]
 const targetCates = ['cate-1', 'cate-4'] // will use cate-4 as the target category which will be used as find criteria to test performance
 
-
 before((done) => { cleanup(done) })
 
 /* eslint-disable no-plusplus */

@@ -11,7 +11,6 @@ exports.list = async(function* list(req, res) {
 })
 
 exports.createOne = async(function* list(req, res) {
-  // const PRODUCT = { code: 'product-1', name: 'Product A', price: 10 }
   try {
     const category = new Category(req.body)
     const result = yield category.save()

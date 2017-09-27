@@ -1,17 +1,19 @@
 const { wrap: async } = require('co')
 const mongoose = require('mongoose')
 
+const { assign } = Object
 const Product = mongoose.model('Product')
 /* GET users listing. */
 exports.list = async(function* list(req, res) {
   const options = {}
-
-  const articles = yield Product.find(options).exec()
-  res.json(articles)
+  if (req.query.cate) {
+    assign(options, { categories: req.query.cate })
+  }
+  const products = yield Product.find(options).exec()
+  res.json(products)
 })
 
 exports.createOne = async(function* list(req, res) {
-  // const PRODUCT = { code: 'product-1', name: 'Product A', price: 10 }
   try {
     const product = new Product(req.body)
     const newProduct = yield product.save()
