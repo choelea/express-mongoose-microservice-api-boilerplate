@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 })
 
 /* Products Related */
-router.get('/products', products.list)
+router.get('/products', products.pageList)
 router.post('/products', products.createOne)
 
 router.get('/categories', categories.list)
