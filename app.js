@@ -13,7 +13,7 @@ const accessLogger = require('./middlewares/accessLogger')
 function connect() {
   logger.info('Trying to connect mongodb ...')
   mongoose.Promise = global.Promise
-  mongoose.connect(process.env.EMM_DB, { useMongoClient: true, config: { autoIndex: true } })
+  mongoose.connect(process.env.EMM_DB || 'mongodb://localhost/emmab', { useMongoClient: true, config: { autoIndex: true } })
   return mongoose.connection
 }
 connect()
