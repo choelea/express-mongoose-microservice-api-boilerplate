@@ -1,6 +1,7 @@
 const { wrap: async } = require('co')
 const mongoose = require('mongoose')
 const logger = require('../utils/logger')
+const { responseError } = require('../utils')
 
 const { assign } = Object
 const Product = mongoose.model('Product')
@@ -28,7 +29,7 @@ exports.pageList = async(function* pageList(req, res) {
     const products = yield Product.pageList(conditions, index - 1, size)
     res.json({ data: products, page: index, pages: Math.ceil(count / size) })
   } catch (err) {
-    res.status(500).json(err)
+    responseError(res, err)
   }
 })
 
@@ -38,7 +39,7 @@ exports.createOne = async(function* list(req, res) {
     const newProduct = yield product.save()
     res.json(newProduct)
   } catch (err) {
-    res.status(500).json(err)
+    responseError(res, err)
   }
 })
 

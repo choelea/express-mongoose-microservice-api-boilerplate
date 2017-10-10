@@ -7,14 +7,18 @@ const route = require('./routes')
 const logger = require('./utils/logger')
 const accessLogger = require('./middlewares/accessLogger')
 
+
 // mongoose starting, autoIndex is something tricky, pls try to learn more from below link.
 // https://stackoverflow.com/questions/14342708/mongoose-indexing-in-production-code
-mongoose.Promise = global.Promise
-mongoose.connect(process.env.EMM_DB, { useMongoClient: true, config: { autoIndex: true } }, (error) => {
-  if (error) {
-    logger.error(error.message)
-  }
-})
+function connect() {
+  logger.info('Trying to connect mongodb ...')
+  mongoose.Promise = global.Promise
+  mongoose.connect(process.env.EMM_DB, { useMongoClient: true, config: { autoIndex: true } })
+  return mongoose.connection
+}
+connect()
+  .on('error', logger.error)
+  .on('disconnected', connect)
 
 // starting express
 const app = express()

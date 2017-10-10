@@ -2,12 +2,23 @@ const mongoose = require('mongoose')
 
 const Schama = mongoose.Schema
 
+const minlength = [5, 'The value of `{PATH}` (`{VALUE}`) is shorter than the minimum allowed length ({MINLENGTH}).'];
+
 const ProductSchema = new Schama({
-  code: { type: String, required: true, index: true, unique: true, trim: true, lowercase: true },
+  code: { type: String, required: true, minlength, index: true, unique: true, trim: true, lowercase: true },
   name: { type: String, required: true, trim: true },
   price: { type: Number, required: true, min: 0, max: 100000 },
   categories: [String],
 })
+
+ProductSchema.path('code').validate(function uniqueCode(code) {
+  const Product = mongoose.model('Product')
+  // Check only when it is a new Product or when code field is modified
+  if (this.isNew || this.isModified('code')) {
+    Product.find({ code }).exec((err, products) => (!err && products.length === 0))
+  }
+  return true
+}, 'Product with given code already exists')
 
 ProductSchema.statics = {
 
