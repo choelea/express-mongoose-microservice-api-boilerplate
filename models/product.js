@@ -12,24 +12,24 @@ const ProductSchema = new Schama({
 })
 
 // this has to be an async validator as modal.find() is async. Please refer to below
-// http://mongoosejs.com/docs/validation.html#async-custom-validators
-ProductSchema.path('code').validate({
-  isAsync: true,
-  validator: function v(code, respond) {
-    const Product = mongoose.model('Product')
-    // Check only when it is a new Product or when code field is modified
-    if (this.isNew || this.isModified('code')) {
-      Product.find({ code }).exec((err, products) => {
-        if (!err && products.length > 0) {
-          respond(false)
-        }
-      })
-    } else {
-      respond(true)
-    }
-  },
-  message: 'Product with given code already exists', // Optional
-})
+// http://mongoosejs.com/docs/validation.html#async-custom-validators  this validation will cause the post request hanging
+// ProductSchema.path('code').validate({
+//   isAsync: true,
+//   validator: function v(code, respond) {
+//     const Product = mongoose.model('Product')
+//     // Check only when it is a new Product or when code field is modified
+//     if (this.isNew || this.isModified('code')) {
+//       Product.find({ code }).exec((err, products) => {
+//         if (!err && products.length > 0) {
+//           respond(false)
+//         }
+//       })
+//     } else {
+//       respond(true)
+//     }
+//   },
+//   message: 'Product with given code already exists', // Optional
+// })
 
 
 ProductSchema.statics = {

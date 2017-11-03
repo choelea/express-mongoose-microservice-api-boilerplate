@@ -4,9 +4,9 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 require('./models') // Bootstrap models, must be required before routers
 const route = require('./routes')
-const logger = require('./utils/logger')
+const logger = require('./logger')
 const accessLogger = require('./middlewares/accessLogger')
-
+const respond = require('./middlewares/respond')
 
 // mongoose starting, autoIndex is something tricky, pls try to learn more from below link.
 // https://stackoverflow.com/questions/14342708/mongoose-indexing-in-production-code
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/', route)
-
+app.use(respond)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found')
@@ -38,7 +38,9 @@ app.use((req, res, next) => {
   next(err)
 })
 
-// error handler
+/**
+ * error-handling functions MUST have four arguments, otherwise it won't work.
+ */
 app.use((err, req, res, next) => {
   if (err) { logger.error(err) }
   res.status(err.status || 500)
