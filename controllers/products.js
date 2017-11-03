@@ -29,12 +29,11 @@ exports.pageList = async(function* pageList(req, res, next) {
     logger.debug(`index is ${index}`)
     const count = yield Product.count(conditions).exec()
     const products = yield Product.pageList(conditions, index - 1, size)
-    // res.json({ data: products, page: index, pages: Math.ceil(count / size) })
-    req.$data = { data: products, page: index, pages: Math.ceil(count / size) }
+    res.json({ data: products, page: index, pages: Math.ceil(count / size) })
+    // req.$data = { data: products, page: index, pages: Math.ceil(count / size) }
   } catch (error) {
     next(error)
   }
-  next()
 })
 
 exports.createOne = async(function* createOne(req, res, next) {
@@ -45,11 +44,10 @@ exports.createOne = async(function* createOne(req, res, next) {
       throw (err(400, 'ERR_PRD_CODE_EXIST', 'Product with give code already exists'))
     }
     const newProduct = yield product.save()
-    req.$data = { newProduct }
+    res.json(newProduct)
   } catch (error) {
     next(error)
   }
-  next()
 })
 
 exports.update = async(function* update(req, res, next) {
@@ -57,23 +55,24 @@ exports.update = async(function* update(req, res, next) {
   assign(product, only(req.body, 'name price'))
   try {
     yield product.save()
+    res.json({})
   } catch (error) {
     next(error)
   }
-  next()
 })
 
 exports.loadByCode = async(function* loadByCode(req, res, next, code) {
   try {
     req.product = yield Product.loadByCode(code)
-    if (!req.product) return next(new Error('Product not found'))
+    if (!req.product) {
+      throw (err(400, 'ERR_PRD_NOTEXIST', 'Product with give code does not exist'))
+    }
+    next()
   } catch (error) {
-    return next(error)
+    next(error)
   }
-  return next()
 })
 
-exports.get = (req, res, next) => {
-  req.$data = only(req.product, '_id code name price')
-  next()
+exports.get = (req, res) => {
+  res.json(only(req.product, '_id code name price'))
 }

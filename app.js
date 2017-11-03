@@ -28,7 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use('/', route)
-app.use(respond)
+// app.use(respond)  // Actually, don't need to use this. Just res.json in the controller js file
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found')
